@@ -14,6 +14,8 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import HomePageManagement from './pages/admin/HomePageManagement.jsx';
 import EventsManagement from './pages/admin/EventsManagement.jsx';
 import GalleryManagement from './pages/admin/GalleryManagement.jsx';
+import SponsorManagement from './pages/admin/SponsorManagement.jsx';
+import TestimonialManagement from './pages/admin/TestimonialManagement.jsx';
 
 const MainLayout = () => {
     const location = useLocation();
@@ -43,6 +45,8 @@ const MainLayout = () => {
                         <Route path="home" element={<HomePageManagement />} />
                         <Route path="events" element={<EventsManagement />} />
                         <Route path="gallery" element={<GalleryManagement />} />
+                        <Route path="sponsors" element={<SponsorManagement />} />
+                        <Route path="testimonials" element={<TestimonialManagement />} />
                     </Route>
                 </Routes>
             </main>
