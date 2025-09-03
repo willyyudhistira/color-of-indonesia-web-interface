@@ -19,11 +19,12 @@ const Navbar = () => {
 		{ title: 'News', path: '/news' }, { title: 'Contact Us', path: '/contact' },
 	];
 	// const isHomePage = location.pathname === '/';
+    const isSolidNav = isScrolled || location.pathname === '/login';
 
-	const navTextColor = isScrolled ? 'text-gray-800 font-bold' : 'text-white';
+	const navTextColor = isSolidNav  ? 'text-gray-800 font-bold' : 'text-white';
 
 	return (
-        <nav className={`m fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 shadow-lg' : 'bg-white/25'} backdrop-blur-sm`}>
+        <nav className={`m fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isSolidNav  ? 'bg-white/90 shadow-lg' : 'bg-white/25'} backdrop-blur-sm`}>
             <div className="mx-15 px-6 flex justify-between items-center h-20">
                 <Link to="/" className="flex-shrink-0">
                     <img src="/assets/logo.png" alt="Color Of Indonesia Logo" className="h-12" />
@@ -41,7 +42,9 @@ const Navbar = () => {
 
                 {/* Terapkan variabel navTextColor di sini juga */}
                 <div className={`hidden md:flex items-center space-x-4 ${navTextColor}`}>
-                    <FaUserCircle size={24} className="cursor-pointer hover:text-purple-700" />
+                    <Link to="/login" title="Login / Register">
+                        <FaUserCircle size={24} className="cursor-pointer hover:text-purple-700" />
+                    </Link>
                 </div>
 
                 {/* Terapkan pada tombol menu mobile */}
