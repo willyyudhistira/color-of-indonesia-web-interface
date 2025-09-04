@@ -16,6 +16,8 @@ import EventsManagement from './pages/admin/EventsManagement.jsx';
 import GalleryManagement from './pages/admin/GalleryManagement.jsx';
 import SponsorManagement from './pages/admin/SponsorManagement.jsx';
 import TestimonialManagement from './pages/admin/TestimonialManagement.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { AuthProvider } from './hooks/AuthContext.jsx';
 
 const MainLayout = () => {
     const location = useLocation();
@@ -40,7 +42,8 @@ const MainLayout = () => {
                     <Route path="/login" element={<AuthPage />} />
 
                     {/* Halaman Admin dengan Nested Routes */}
-                    <Route path="/admin/dashboard" element={<AdminDashboard />}>
+                    <Route path="/admin/dashboard" 
+                    element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}>
                         <Route index element={<HomePageManagement />} />
                         <Route path="home" element={<HomePageManagement />} />
                         <Route path="events" element={<EventsManagement />} />
@@ -58,7 +61,9 @@ const MainLayout = () => {
 function App() {
   return (
     <Router>
+      <AuthProvider>
       <MainLayout />
+    </AuthProvider>
     </Router>
   );
 }
