@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
-import { FaHome, FaCalendarAlt, FaImages, FaSignOutAlt, FaStar, FaComment, FaNewspaper, FaBullhorn } from 'react-icons/fa';
+import { FaHome, FaCalendarAlt, FaImages, FaSignOutAlt, FaStar, FaComment, FaNewspaper, FaBullhorn, FaClipboardList } from 'react-icons/fa';
 import Logo from '../../assets/logo.png'; // Pastikan path ini benar
 import { useAuth } from '../../hooks/AuthContext';
 
@@ -13,6 +13,7 @@ const getTitleFromPath = (path) => {
     if (path.endsWith('/testimonials')) return 'Testimonial Management';
     if (path.endsWith('/news')) return 'News Management';
     if (path.endsWith('/main-events')) return 'Main Event Management';
+    if (path.endsWith('/programs')) return 'Program Management';
     return 'Dashboard';
 };
 
@@ -29,6 +30,7 @@ const AdminDashboard = () => {
         { name: 'Sponsors', path: '/admin/dashboard/sponsors', icon: <FaStar /> },
         { name: 'Testimonials', path: '/admin/dashboard/testimonials', icon: <FaComment /> },
         { name: 'News', path: '/admin/dashboard/news', icon: <FaNewspaper /> },
+        { name: 'Programs', path: '/admin/dashboard/programs', icon: <FaClipboardList /> },
     ];
 
     const handleLogout = () => {
