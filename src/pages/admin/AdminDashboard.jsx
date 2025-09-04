@@ -40,9 +40,9 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="flex h-screen bg-gray-100 font-sans">
+        <div className="flex max-h-screen bg-gray-100 font-sans">
             {/* Sidebar (Tetap sama) */}
-            <aside className="w-64 bg-brand-purple text-white flex flex-col flex-shrink-0">
+            <aside className="w-64 h-fit bg-brand-purple text-white flex flex-col flex-shrink-0">
                 <div className="h-20 flex items-center justify-center px-4 border-b border-purple-700">
                     <Link to="/" className="flex items-center gap-3">
                         <img src={Logo} alt="Logo" className="h-10" />
