@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import { FaHome, FaCalendarAlt, FaImages, FaSignOutAlt, FaStar, FaComment, FaNewspaper, FaBullhorn } from 'react-icons/fa';
 import Logo from '../../assets/logo.png'; // Pastikan path ini benar
+import { useAuth } from '../../hooks/AuthContext';
 
 // Fungsi helper untuk mendapatkan judul dari path URL
 const getTitleFromPath = (path) => {
@@ -18,6 +19,7 @@ const getTitleFromPath = (path) => {
 const AdminDashboard = () => {
     const location = useLocation();
     const currentPageTitle = getTitleFromPath(location.pathname);
+    const { user, logout } = useAuth();
 
     const adminMenus = [
         { name: 'Home Page', path: '/admin/dashboard/home', icon: <FaHome /> },
@@ -28,6 +30,12 @@ const AdminDashboard = () => {
         { name: 'Testimonials', path: '/admin/dashboard/testimonials', icon: <FaComment /> },
         { name: 'News', path: '/admin/dashboard/news', icon: <FaNewspaper /> },
     ];
+
+    const handleLogout = () => {
+        if (window.confirm('Apakah Anda yakin ingin logout?')) {
+            logout(); // Panggil fungsi logout dari context
+        }
+    };
 
     return (
         <div className="flex h-screen bg-gray-100 font-sans">
@@ -59,12 +67,12 @@ const AdminDashboard = () => {
                 </nav>
 
                 <div className="p-4 border-t border-purple-700">
-                     <Link 
-                        to="/"
+                     <button 
+                        onClick={handleLogout}
                         className="w-full text-left px-4 py-2.5 rounded-lg transition-colors text-sm flex items-center gap-3 text-gray-300 hover:bg-red-500 hover:text-white"
                     >
                         <FaSignOutAlt /> Logout
-                    </Link>
+                    </button>
                 </div>
             </aside>
             

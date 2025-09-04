@@ -148,7 +148,7 @@ const TestimonialManagement = () => {
                         <div className="w-full h-40 border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50">
                             {imagePreview ? <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded-full" /> : <span className="text-gray-400">Image Preview</span>}
                         </div>
-                        <input id="file-input-add" type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0" />
+                        <input id="file-input-add" type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-brand-purple hover:file:bg-purple-100 cursor-pointer" />
                     </div>
                     <div className="md:col-span-3 flex justify-end">
                         <button type="submit" disabled={loading} className="flex items-center gap-2 bg-brand-purple text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-800 disabled:bg-purple-400">

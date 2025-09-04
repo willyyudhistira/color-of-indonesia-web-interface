@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-
+import { api } from '../hooks/useApi';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,14 +18,50 @@ import AboutImg1 from '../assets/about-hero.png';
 import AboutImg2 from '../assets/contact-hero.png';
 import AboutImg3 from '../assets/hero-bg.png';
 import AboutImg4 from '../assets/hero-bg.png';
-import IICFImg from '../assets/hero-bg.png';
-import LogoSponsor from '../assets/logo.png';
+import { Link } from 'react-router-dom';
+// import IICFImg from '../assets/hero-bg.png';
+// import LogoSponsor from '../assets/logo.png';
 
-import SponsorAd1 from '../assets/hero-bg.png'; // <-- Impor gambar iklan
-import SponsorAd2 from '../assets/about-hero.png'; // <-- Impor gambar iklan
-import SponsorAd3 from '../assets/contact-hero.png'; // <-- Impor gambar iklan
+// import SponsorAd1 from '../assets/hero-bg.png'; // <-- Impor gambar iklan
+// import SponsorAd2 from '../assets/about-hero.png'; // <-- Impor gambar iklan
+// import SponsorAd3 from '../assets/contact-hero.png'; // <-- Impor gambar iklan
 
 const HomePage = () => {
+    
+ // --- State untuk menampung data dari API ---
+    const [homeData, setHomeData] = useState({
+        carousel: [],
+        mainEvents: [],
+        testimonials: [],
+        sponsors: [],
+        sponsorBanners: []
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const API_URL = 'http://localhost:4000/'; // Definisikan base URL backend Anda
+
+    // --- Mengambil data dari API saat komponen dimuat ---
+    useEffect(() => {
+        const fetchHomePageData = async () => {
+            try {
+                // Endpoint publik tidak memerlukan token, jadi kita gunakan axios langsung
+                const response = await api.get('/home'); // Endpoint ke backend Anda
+                setHomeData({
+                    carousel: response.data.carousel || [],
+                    mainEvents: response.data.mainEvents || [],
+                    testimonials: response.data.testimonials || [],
+                    sponsors: response.data.sponsors || [],
+                    sponsorBanners: response.data.sponsorBanners || [],
+                });
+            } catch (err) {
+                setError('Gagal memuat data. Pastikan server backend berjalan.');
+                console.error("API Error:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchHomePageData();
+    }, []);
 
 	const about = [
 		{id: 1, img: AboutImg1, type: 'large'},
@@ -72,89 +108,22 @@ const HomePage = () => {
     // const animationDelays = [0, 0.2, 0.4, 0.6];
     const animationDelays = [0.5, 0.5, 0.5, 0.5];
 
-	const heroSlides = [
-        {
-            id: 1,
-            image: HeroBg,
-            title: 'Color Of Indonesia',
-            subtitle: 'Through the culture, We become One'
-        },
-        {
-            id: 2,
-            image: AboutImg1,
-            title: 'Discover The Archipelago',
-            subtitle: 'A Journey Through a Thousand Islands'
-        },
-        {
-            id: 3,
-            image: AboutImg1,
-            title: 'Embrace The Diversity',
-            subtitle: 'Unity in Every Performance'
+    useEffect(() => {
+        // Cek bahwa homeData bukan nilai awal yang kosong
+        if (homeData && homeData.carousel.length > 0) {
+            console.log("Data dari API berhasil diterima:", JSON.stringify(homeData, null, 2));
         }
-    ];
+    }, [homeData]);
 
-	const sponsorAds = [
-        { id: 1, imageUrl: SponsorAd1, alt: 'Iklan Sponsor 1' },
-        { id: 2, imageUrl: SponsorAd2, alt: 'Iklan Sponsor 2' },
-        { id: 3, imageUrl: SponsorAd3, alt: 'Iklan Sponsor 3' }
-    ];
+    // Tampilkan loading indicator jika data belum siap
+    if (loading) {
+        return <div className="h-screen flex justify-center items-center">Loading...</div>;
+    }
 
-	const sponsorLogos = [
-        { id: 1, name: 'Sponsor A', logoUrl: LogoSponsor },
-        { id: 2, name: 'Sponsor B', logoUrl: LogoSponsor },
-        { id: 3, name: 'Sponsor C', logoUrl: LogoSponsor },
-        { id: 4, name: 'Sponsor D', logoUrl: LogoSponsor },
-        { id: 5, name: 'Sponsor E', logoUrl: LogoSponsor },
-    ];
-
-	const adventures = [
-		{
-			id: 'YIDC',
-			title: 'Yogya International Dance Culture',
-			description: 'A spectacular festival celebrating the art of dance from Indonesia and across the globe. Experience the beauty of movement, rhythm, and cultural harmony in the historic city of Yogyakarta, where tradition meets creativity.',
-			img: IICFImg // Ganti dengan gambar yang sesuai jika berbeda
-		},
-		{
-			id: 'APIFF',
-			title: 'International Folklore Festival',
-			subtitle: 'Adventure Pinrang',
-			description: 'A dynamic celebration of world folklore traditions set in the heart of Sulawesi. Join us for breathtaking cultural performances, traditional music, and dance that unite communities and honor the beauty of diversity.',
-			img: IICFImg // Ganti dengan gambar yang sesuai jika berbeda
-		},
-		{
-			id: 'BIFF',
-			title: 'Bali International Folklore Festival',
-			description: 'An extraordinary showcase of traditional folklore from around the world, hosted on the beautiful island of Bali. Experience captivating dance, music, and cultural performances that celebrate heritage, creativity, and unity among nations.',
-			img: IICFImg // Ganti dengan gambar yang sesuai jika berbeda
-		},
-		{
-			id: 'IICF',
-			title: 'Indonesia International Culture Festival',
-			description: 'A vibrant celebration of Indonesia’s rich cultural heritage, featuring traditional music, dance performances, art exhibitions, and culinary experiences. This festival brings together participants from around the world to share culture, creativity, and friendship in an unforgettable global atmosphere.',
-			img: IICFImg // Ganti dengan gambar yang sesuai jika berbeda
-		}
-	];
-
-	const testimonials = [
-        {
-            id: 1,
-            quote: "Setiap event membawa Anda lebih dekat ke impian Anda untuk melanjutkan jenjang studi dan terhubung dengan komunitas global.",
-            author: "Pegiat Pengirim",
-            imageUrl: SponsorAd1 // Ganti dengan path gambar testimoni
-        },
-        {
-            id: 2,
-            quote: "Pengalaman yang luar biasa! Saya belajar banyak tentang budaya lain dan juga tentang diri saya sendiri.",
-            author: "Peserta 2024",
-            imageUrl: SponsorAd2 // Ganti dengan path gambar testimoni
-        },
-        {
-            id: 3,
-            quote: "Organisasinya sangat profesional. Acara ini membuka banyak pintu kesempatan bagi saya di kancah internasional.",
-            author: "Alumni Program",
-            imageUrl: SponsorAd3 // Ganti dengan path gambar testimoni
-        }
-    ];
+    // Tampilkan pesan error jika terjadi kegagalan
+    if (error) {
+        return <div className="h-screen flex justify-center items-center text-red-500">{error}</div>;
+    }
 
 	return (
 		<div className='w-full bg-slate-100 relative'>
@@ -168,6 +137,7 @@ const HomePage = () => {
                 }}
             ></div>
 			<div className="relative z-10 font-serif">
+                {homeData.carousel && homeData.carousel.length > 0 && (
 				<Swiper
                     modules={[Navigation, Pagination, Autoplay, EffectFade]}
                     spaceBetween={30}
@@ -175,22 +145,23 @@ const HomePage = () => {
                     effect="fade"
                     navigation
                     pagination={{ clickable: true }}
-                    loop={true}
+                    loop={homeData.carousel.length > 1}
                     autoplay={{ delay: 4000, disableOnInteraction: false }}
                     className="h-screen"
                 >
-                    {heroSlides.map(slide => (
+                    {homeData?.carousel?.map(slide => (
                         <SwiperSlide key={slide.id}>
-                            <div className="relative h-full w-full flex items-center justify-center text-white" style={{ backgroundImage: `url(${slide.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                            <div className="relative h-full w-full flex items-center justify-center text-white" style={{ backgroundImage: `url(${API_URL}${slide.image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                                 <div className="absolute inset-0 bg-purple-950/70"></div>
                                 <div className="relative z-10 text-center px-4">
-                                    <h1 className="font-serif text-5xl md:text-7xl font-extrabold tracking-tight">{slide.title}</h1>
-                                    <p className="mt-4 text-xl md:text-2xl font-light">{slide.subtitle}</p>
+                                   <h1 className="font-serif text-5xl md:text-7xl font-extrabold tracking-tight">{slide.alt_text || 'Color Of Indonesia'}</h1>
+                                    <p className="mt-4 text-xl md:text-2xl font-light">{slide.subtitle || 'Through the culture, We become One'}</p>
                                 </div>
                             </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
+                  )}
 
 				<section className="py-24 px-8 relative bg-main-pattern mx-20">
 					{/* Overlay stripes */}
@@ -234,7 +205,7 @@ const HomePage = () => {
 					</div>
 				</section>
 
-
+                {homeData.sponsorBanners && homeData.sponsorBanners.length > 0 && (
 				<section className="py-12 mx-20">
                     <Swiper
                         modules={[Navigation, Autoplay, EffectFade]}
@@ -242,55 +213,47 @@ const HomePage = () => {
                         slidesPerView={1}
                         navigation
 						effect='fade'
-                        loop={true}
+                        loop={homeData.sponsorBanners.length > 1}
                         autoplay={{ delay: 3000, disableOnInteraction: false }}
                         className="w-full h-[300px] mx-auto rounded-lg overflow-hidden" // Ditambahkan overflow-hidden
                     >
-                        {sponsorAds.map(ad => (
-                            <SwiperSlide key={ad.id}>
-                                <img 
-                                    src={ad.imageUrl} 
-                                    alt={ad.alt} 
-                                    className="w-full h-full object-cover" 
-                                />
+                        {homeData?.sponsorBanners?.map(banner => (
+                            <SwiperSlide key={banner.id}>
+                                <img src={`${API_URL}${banner.image_url}`} alt={`Sponsor Banner ${banner.id}`} className="w-full h-full object-cover" />
                             </SwiperSlide>
                         ))}
                     </Swiper>
                 </section>
+                )}
 
+                {homeData.mainEvents && homeData.mainEvents.length > 0 && (
 				<section className="py-12 text-center mx-20 px-4">
 					<h2 className="text-4xl font-bold text-brand-purple mb-4">Mulai Petualanganmu</h2>
-					<p className="text-gray-600 mb-12 max-w-2xl mx-auto">Kami membuka pintu bagi Anda untuk menjelajah, belajar, dan terhubung dengan komunitas global.</p>
-
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-						{adventures.map((event) => (
-							<div key={event.id} className="relative rounded-lg overflow-hidden shadow-2xl group cursor-pointer h-96">
-								{/* Background Image */}
-								<img src={event.img} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-
-								{/* Initial State: Judul besar di bawah */}
-								<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6 transition-opacity duration-500 group-hover:opacity-0">
-									<h3 className="text-white text-3xl font-bold">{event.id}</h3>
-								</div>
-
-								{/* Hover State: Overlay ungu semi-transparan dengan deskripsi */}
-								<div className="absolute inset-0 bg-purple-800/60
-								p-6 flex flex-col justify-start text-left text-white
-								transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-									<h3 className="text-4xl font-extrabold">{event.id}</h3>
-									{event.subtitle && <p className="text-lg font-medium">{event.subtitle}</p>}
-									<p className="text-lg font-semibold mt-2">{event.title}</p>
-									<p className="text-sm mt-3 font-light leading-relaxed">{event.description}</p>
-								</div>
-							</div>
-						))}
-					</div>
-
+                    <p className="text-gray-600 mb-12 max-w-2xl mx-auto">Kami membuka pintu bagi Anda untuk menjelajah, belajar, dan terhubung dengan komunitas global.</p>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {homeData?.mainEvents?.map((event) => (
+                            <div key={event.id} className="relative rounded-lg overflow-hidden shadow-2xl group cursor-pointer h-96">
+                                <img src={`${API_URL}${event.hero_image_url}`} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6 transition-opacity duration-500 group-hover:opacity-0">
+                                    <h3 className="text-white text-3xl font-bold">{event.title.split(' ').slice(-1)}</h3> {/* Mengambil kata terakhir sebagai ID visual */}
+                                </div>
+                                <div className="absolute inset-0 bg-purple-800/60 p-6 flex flex-col justify-start text-left text-white transition-opacity duration-500 opacity-0 group-hover:opacity-100">
+                                    <h3 className="text-4xl font-extrabold">{event.title.split(' ').slice(-1)}</h3>
+                                    {event.subtitle && <p className="text-lg font-medium">{event.subtitle}</p>}
+                                    <p className="text-sm mt-3 font-light leading-relaxed">{event.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <Link to={'/events'}>
 					<button className="mt-16 bg-brand-purple text-white font-bold py-3 px-10 rounded-full hover:bg-purple-800 transition-transform hover:scale-105 shadow-lg">
 						Selengkapnya
 					</button>
+                    </Link>
 				</section>
-
+                )}
+                {homeData.testimonials && homeData.testimonials.length > 0 && (
 				<section className="py-15 ">
 					<div className="container mx-auto text-center p-4 ">
 						<h2 className="text-4xl font-bold text-brand-purple mb-16">Apa Kata Mereka</h2>
@@ -299,7 +262,7 @@ const HomePage = () => {
 							effect="fade"
 							fadeEffect={{ crossFade: true }} // Menambahkan crossFade untuk transisi yang lebih halus
 							slidesPerView={1}
-							loop={true}
+							loop={homeData.testimonials.length > 1}
 							allowTouchMove={false}
 							autoplay={{
 								delay: 5000,
@@ -307,33 +270,30 @@ const HomePage = () => {
 							}}
 							className="max-w-4xl mx-auto" // Hapus overflow-hidden dari sini
 						>
-							{testimonials.map(testimonial => (
-								<SwiperSlide key={testimonial.id}>
-									{/* Atur tinggi minimum dan layout di sini */}
-									<div className="flex flex-col md:flex-row items-center justify-center gap-12 min-h-[256px]"> 
-										<img 
-											src={testimonial.imageUrl} 
-											alt={testimonial.author} 
-											className='rounded-lg w-64 h-64 object-cover shadow-lg' // object-cover lebih baik dari bg-auto
-										/>
-										<div className="max-w-md text-left">
-											<p className="text-2xl italic text-gray-700 leading-relaxed">"{testimonial.quote}"</p>
-											<p className="mt-6 font-bold text-lg text-brand-purple">- {testimonial.author}</p>
-										</div>
-									</div>
-								</SwiperSlide>
-							))}
+							{homeData?.testimonials?.map(testimonial => (
+                                <SwiperSlide key={testimonial.id}>
+                                    <div className="flex flex-col md:flex-row items-center justify-center gap-12 min-h-[256px]"> 
+                                        <img src={`${API_URL}${testimonial.avatar_url}`} alt={testimonial.author_name} className='rounded-lg w-64 h-64 object-cover shadow-lg' />
+                                        <div className="max-w-md text-left">
+                                            <p className="text-2xl italic text-gray-700 leading-relaxed">"{testimonial.quote}"</p>
+                                            <p className="mt-6 font-bold text-lg text-brand-purple">- {testimonial.author_name}</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
 						</Swiper>
 					</div>
 				</section>
+                )}
 
+                {homeData.sponsors && homeData.sponsors.length > 0 && (
 				<section className="py-20 bg-white">
                     <div className="container mx-auto text-center">
                         <h3 className="text-3xl font-bold text-gray-500 mb-12">LOGO-LOGO SPONSOR</h3>
                         <div className="flex justify-center items-center gap-x-12 gap-y-8 flex-wrap">
-                            {sponsorLogos.map(sponsor => (
+                             {homeData?.sponsors?.map(sponsor => (
                                 <div key={sponsor.id} title={sponsor.name}>
-                                    <img src={sponsor.logoUrl} alt={sponsor.name} className="h-12 opacity-60 hover:opacity-100 transition-all duration-300" />
+                                    <img src={`${API_URL}${sponsor.logo_url}`} alt={sponsor.name} className="h-12 opacity-60 hover:opacity-100 transition-all duration-300" />
                                 </div>
                             ))}
                         </div>
@@ -342,6 +302,7 @@ const HomePage = () => {
                         </button>
                     </div>
                 </section>
+                )}
 			</div>
 		</div>
 	);

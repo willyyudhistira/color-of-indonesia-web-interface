@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
 
     if (!token) {
         // Jika tidak ada token, arahkan ke halaman login
-        return <Navigate to="/auth" state={{ from: location }} replace />;
+        return <Navigate to="/" state={{ from: location }} replace />;
     }
 
     return children;

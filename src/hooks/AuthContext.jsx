@@ -21,10 +21,11 @@ export const AuthProvider = ({ children }) => {
         const storedUser = localStorage.getItem('authUser');
 
         if (storedToken && storedUser) {
+            if (storedToken && storedUser) {
             setToken(storedToken);
             setUser(JSON.parse(storedUser));
-            // Set token ke header default axios untuk request selanjutnya
-            api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+            }
+        setLoading(false);
         }
         setLoading(false);
     }, []);
@@ -62,9 +63,11 @@ export const AuthProvider = ({ children }) => {
             throw new Error(error.response?.data?.message || 'Registrasi gagal.');
         }
     };
+    
 
     const logout = () => {
         // Hapus semua data sesi
+        
         setUser(null);
         setToken(null);
         localStorage.removeItem('authToken');
@@ -73,7 +76,7 @@ export const AuthProvider = ({ children }) => {
         // Hapus header Authorization dari axios
         delete api.defaults.headers.common['Authorization'];
         
-        navigate('/auth');
+        navigate('/');
     };
 
     const value = {

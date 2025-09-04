@@ -24,4 +24,9 @@ const useApi = () => {
     return api;
 };
 
+export const api = axios.create({
+  baseURL: 'http://localhost:4000/api', // sesuaikan dengan backend kamu
+  // withCredentials: true, // kalau perlu cookie
+});
+
 export default useApi;
