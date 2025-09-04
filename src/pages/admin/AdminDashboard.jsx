@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
-import { FaHome, FaCalendarAlt, FaImages, FaSignOutAlt, FaStar, FaComment } from 'react-icons/fa';
+import { FaHome, FaCalendarAlt, FaImages, FaSignOutAlt, FaStar, FaComment, FaNewspaper, FaBullhorn } from 'react-icons/fa';
 import Logo from '../../assets/logo.png'; // Pastikan path ini benar
 
 // Fungsi helper untuk mendapatkan judul dari path URL
@@ -10,6 +10,8 @@ const getTitleFromPath = (path) => {
     if (path.endsWith('/gallery')) return 'Gallery Management';
     if (path.endsWith('/sponsors')) return 'Sponsor Management';
     if (path.endsWith('/testimonials')) return 'Testimonial Management';
+    if (path.endsWith('/news')) return 'News Management';
+    if (path.endsWith('/main-events')) return 'Main Event Management';
     return 'Dashboard';
 };
 
@@ -19,10 +21,12 @@ const AdminDashboard = () => {
 
     const adminMenus = [
         { name: 'Home Page', path: '/admin/dashboard/home', icon: <FaHome /> },
+        { name: 'Main Events', path: '/admin/dashboard/main-events', icon: <FaBullhorn /> },
         { name: 'Events', path: '/admin/dashboard/events', icon: <FaCalendarAlt /> },
         { name: 'Gallery', path: '/admin/dashboard/gallery', icon: <FaImages /> },
         { name: 'Sponsors', path: '/admin/dashboard/sponsors', icon: <FaStar /> },
-        { name: 'Testimonials', path: '/admin/dashboard/testimonials', icon: <FaComment /> }
+        { name: 'Testimonials', path: '/admin/dashboard/testimonials', icon: <FaComment /> },
+        { name: 'News', path: '/admin/dashboard/news', icon: <FaNewspaper /> },
     ];
 
     return (

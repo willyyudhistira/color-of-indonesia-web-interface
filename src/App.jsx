@@ -16,6 +16,9 @@ import EventsManagement from './pages/admin/EventsManagement.jsx';
 import GalleryManagement from './pages/admin/GalleryManagement.jsx';
 import SponsorManagement from './pages/admin/SponsorManagement.jsx';
 import TestimonialManagement from './pages/admin/TestimonialManagement.jsx';
+import NewsManagement from './pages/admin/NewsManagement.jsx';
+import MainEventManagement from './pages/admin/MainEventManagement.jsx';
+
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { AuthProvider } from './hooks/AuthContext.jsx';
 
@@ -50,6 +53,8 @@ const MainLayout = () => {
                         <Route path="gallery" element={<GalleryManagement />} />
                         <Route path="sponsors" element={<SponsorManagement />} />
                         <Route path="testimonials" element={<TestimonialManagement />} />
+                        <Route path="news" element={<NewsManagement />} />
+                        <Route path="main-events" element={<MainEventManagement />} />
                     </Route>
                 </Routes>
             </main>

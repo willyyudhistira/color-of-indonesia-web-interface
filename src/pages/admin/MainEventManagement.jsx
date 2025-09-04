@@ -1,38 +1,28 @@
 import React, { useState } from 'react';
 import { FaUpload, FaTrash, FaPen } from 'react-icons/fa';
 
-const EventsManagement = () => {
+const MainEventManagement = () => {
     const [imagePreview, setImagePreview] = useState(null);
 
-    // Data dummy sesuai skema Event Anda
-    const [events, setEvents] = useState([
+    // Data dummy sesuai skema MainEvent Anda
+    const [mainEvents, setMainEvents] = useState([
         {
             id: 1,
             title: 'Indonesia International Culture Festival 2025',
             slug: 'indonesia-international-culture-festival-2025',
-            description: 'Perayaan akbar warisan budaya Indonesia yang kaya.',
-            start_date: new Date('2025-10-28'),
-            end_date: new Date('2025-11-02'),
+            description: 'Sebuah perayaan akbar warisan budaya Indonesia yang kaya, menampilkan musik tradisional, pertunjukan tari, pameran seni, dan pengalaman kuliner.',
             location_name: 'Taman Mini Indonesia Indah',
-            address: 'Jl. Raya Taman Mini, Jakarta Timur',
+            address: 'Jl. Raya Taman Mini, Jakarta Timur, DKI Jakarta',
             hero_image_url: 'https://via.placeholder.com/300x200?text=IICF+2025',
-            form_url: 'https://forms.gle/contoh',
-            is_featured: true,
-            is_published: true,
         },
         {
             id: 2,
             title: 'Bali International Folklore Festival 2025',
             slug: 'bali-international-folklore-festival-2025',
-            description: 'Panggung luar biasa dari cerita rakyat tradisional.',
-            start_date: new Date('2025-11-15'),
-            end_date: new Date('2025-11-18'),
-            location_name: 'Garuda Wisnu Kencana (GWK), Bali',
-            address: 'Jl. Raya Uluwatu, Ungasan, Kuta Sel., Bali',
+            description: 'Panggung luar biasa dari cerita rakyat tradisional dari seluruh dunia, yang diselenggarakan di pulau Bali yang indah.',
+            location_name: 'Garuda Wisnu Kencana (GWK)',
+            address: 'Jl. Raya Uluwatu, Ungasan, Kuta Sel., Kabupaten Badung, Bali',
             hero_image_url: 'https://via.placeholder.com/300x200?text=BIFF+2025',
-            form_url: 'https://forms.gle/contoh',
-            is_featured: false,
-            is_published: true,
         },
     ]);
 
@@ -47,7 +37,7 @@ const EventsManagement = () => {
         <div className="space-y-8">
             {/* Form Input */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-xl font-bold text-gray-700 mb-6 border-b pb-4">Tambah / Edit Event</h2>
+                <h2 className="text-xl font-bold text-gray-700 mb-6 border-b pb-4">Tambah / Edit Main Event</h2>
                 <form className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -56,7 +46,7 @@ const EventsManagement = () => {
                         </div>
                         <div>
                             <label htmlFor="event-slug" className="block text-sm font-medium text-gray-600 mb-1">Slug (untuk URL)</label>
-                            <input type="text" id="event-slug" placeholder="contoh-event-unik-2025" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
+                            <input type="text" id="event-slug" placeholder="contoh-nama-event-2025" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
                         </div>
                     </div>
                     <div>
@@ -65,18 +55,8 @@ const EventsManagement = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label htmlFor="event-start-date" className="block text-sm font-medium text-gray-600 mb-1">Tanggal Mulai</label>
-                            <input type="date" id="event-start-date" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
-                        </div>
-                        <div>
-                            <label htmlFor="event-end-date" className="block text-sm font-medium text-gray-600 mb-1">Tanggal Selesai</label>
-                            <input type="date" id="event-end-date" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
-                        </div>
-                    </div>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
                             <label htmlFor="event-location" className="block text-sm font-medium text-gray-600 mb-1">Nama Lokasi</label>
-                            <input type="text" id="event-location" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
+                            <input type="text" id="event-location" placeholder="Contoh: Taman Mini Indonesia Indah" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
                         </div>
                         <div>
                             <label htmlFor="event-address" className="block text-sm font-medium text-gray-600 mb-1">Alamat</label>
@@ -84,27 +64,13 @@ const EventsManagement = () => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="event-form-url" className="block text-sm font-medium text-gray-600 mb-1">URL Form Pendaftaran</label>
-                        <input type="url" id="event-form-url" placeholder="https://..." className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple" />
-                    </div>
-                     <div>
                         <label className="block text-sm font-medium text-gray-600 mb-1">Gambar Hero</label>
                         <div className="w-full h-40 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
                             {imagePreview ? <img src={imagePreview} alt="Preview" className="w-full h-full object-contain p-2" /> : <span className="text-gray-400">Image Preview</span>}
                         </div>
                         <input type="file" accept="image/*" onChange={handleFileChange} className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-brand-purple hover:file:bg-purple-100" />
                     </div>
-                    <div className="flex justify-between items-center pt-4">
-                        <div className="flex gap-6">
-                            <div className="flex items-center gap-2">
-                                <input type="checkbox" id="event-is-featured" className="h-4 w-4 rounded border-gray-300 text-brand-pink focus:ring-brand-pink" />
-                                <label htmlFor="event-is-featured" className="text-sm font-medium text-gray-700">Featured (Home Highlight)</label>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <input type="checkbox" id="event-is-published" className="h-4 w-4 rounded border-gray-300 text-brand-purple focus:ring-brand-purple" defaultChecked />
-                                <label htmlFor="event-is-published" className="text-sm font-medium text-gray-700">Published</label>
-                            </div>
-                        </div>
+                    <div className="flex justify-end pt-2">
                         <button type="submit" className="flex items-center justify-center gap-2 bg-brand-purple text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-800 transition-colors">
                             <FaUpload />
                             <span>Simpan Event</span>
@@ -113,23 +79,17 @@ const EventsManagement = () => {
                 </form>
             </div>
 
-            {/* Daftar Event */}
+            {/* Daftar Main Event */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-bold text-gray-700 mb-4 border-b pb-4">Daftar Event</h3>
+                <h3 className="text-xl font-bold text-gray-700 mb-4 border-b pb-4">Daftar Main Event</h3>
                 <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    {events.map(event => (
+                    {mainEvents.map(event => (
                         <div key={event.id} className="flex items-start gap-4 p-3 rounded-md border border-gray-200">
                            <img src={event.hero_image_url} alt={event.title} className="w-32 h-20 object-cover rounded-md flex-shrink-0" />
                             <div className="flex-1">
-                                <div className="flex items-center gap-3 mb-1">
-                                    {event.is_published && <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">Published</span>}
-                                    {event.is_featured && <span className="bg-pink-100 text-pink-800 text-xs font-semibold px-2 py-0.5 rounded-full">Featured</span>}
-                                </div>
                                 <h4 className="font-bold text-gray-800">{event.title}</h4>
                                 <p className="text-sm text-gray-500">{event.location_name}</p>
-                                <p className="text-xs text-gray-400 mt-1">
-                                    {new Date(event.start_date).toLocaleDateString()} - {event.end_date ? new Date(event.end_date).toLocaleDateString() : 'Selesai'}
-                                </p>
+                                <p className="text-xs text-gray-400 mt-1">Slug: {event.slug}</p>
                             </div>
                             <div className="flex flex-col gap-2">
                                 <button className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors" title="Hapus"><FaTrash size={14} /></button>
@@ -143,4 +103,4 @@ const EventsManagement = () => {
     );
 };
 
-export default EventsManagement;
+export default MainEventManagement;
